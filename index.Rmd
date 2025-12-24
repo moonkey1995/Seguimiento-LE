@@ -108,9 +108,9 @@ require(purrr)
 ```
 
 ```{r, include=FALSE}
-ruta<-"C:/Users/monica.olivares/OneDrive - Corporación Televisa, S.A. de C.V/Las Estrellas/Dash Seguiminto variaciones/"
+ruta<-paste(getwd())
 
-data<-read_excel(paste0(ruta,"Programmes Seguimiento LE_2.xlsx"),skip=2,
+data<-read_excel(paste0(ruta,"/Programmes Seguimiento LE_2.xlsx"),skip=2,
                  col_types = c("text","text","date","text","text","text","numeric"))#%>% 
  # mutate(`Main Title`=ifelse(`Main Title`=="PIENSA RAPIDO VIP","PIENSA RAPIDO",`Main Title`))
 Data<-data %>% mutate(Horas=as.numeric(substr(`Time (sec)`,1,2)),Minutos=as.numeric(substr(`Time (sec)`,4,5)),
@@ -153,7 +153,7 @@ Sem<-M3_L-1
 lastyear<-Sem-180
 
 ### Serie franjas 
-Franjas<-read_excel(paste0(ruta,"Time LE Franjas_2.xlsx"),skip=3,
+Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),skip=3,
                     col_types = c("text","text","date","text","numeric","text")) %>% 
   select(-6) %>% mutate(Inicio=substr(`Time (sec)`,1,5))
 ```

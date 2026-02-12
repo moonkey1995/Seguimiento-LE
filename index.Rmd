@@ -10,7 +10,7 @@ params:
   date:
     input: date
     label: "Selecciona la fecha que deseas:"
-    max: '2025-12-31'
+    max: '2026-12-31'
     min: '2017-01-01'
     value: !r Sys.Date()+3
 ---

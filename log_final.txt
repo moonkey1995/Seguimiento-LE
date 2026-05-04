@@ -112,3 +112,16 @@ package 'gert' was built under R version 4.5.3
 2 log_final.txt                    modified FALSE 
 3 Programmes Seguimiento LE_2.xlsx modified FALSE 
 [1] "Añadiendo archivos modificados ('git add')..."
+# A tibble: 3 × 3
+  file                             status   staged
+  <chr>                            <chr>    <lgl> 
+1 index.html                       modified TRUE  
+2 log_final.txt                    modified TRUE  
+3 Programmes Seguimiento LE_2.xlsx modified TRUE  
+[1] "Haciendo 'git commit' con el mensaje: Reporte actualizado automáticamente el 2026-05-04"
+[1] "3c979a0251fbc9a240d9b01dd403a0221ee14f3c"
+[1] "Subiendo los cambios al remoto ('git push')..."
+Error en libgit2::git_remote_push: 
+  cannot push because a reference that you are trying to update on the remote contains commits that are not present locally.
+Calls: git_push -> raise_libgit2_error
+Ejecución interrumpida

@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
+setwd(here::here())
+=======
 setwd("D:/Seguimiento LE/Seguimiento-LE")
+>>>>>>> 579eeeff05c5c603ebdff8b1bf65f1223d816b30
 
 # 1. Renderizar el archivo .Rmd
 # Esto creará un archivo .html en la misma carpeta

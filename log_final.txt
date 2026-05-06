@@ -92,7 +92,7 @@ processing file: index.Rmd
 89/89                   
 output file: index.knit.md
 
-"C:/PROGRA~1/Pandoc/pandoc" +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\latex-div.lua" --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\table-classes.lua" --embed-resources --standalone --variable bs3=TRUE --standalone --section-divs --template "D:\R-4.5.1\library\flexdashboard\www\flex_dashboard\default.html" --variable theme=united --mathjax --variable "mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" --include-in-header "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpsrCgc1\rmarkdown-str16b0484a156b.html" --variable logo=TelevisaU2.jpg --highlight-style pygments --include-in-header "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpsrCgc1\file16b067db1d80html" --include-before-body "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpsrCgc1\file16b026653c2d.html" --include-after-body "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpsrCgc1\file16b01f9e2462.html" 
+"C:/PROGRA~1/Pandoc/pandoc" +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\latex-div.lua" --lua-filter "D:\R-4.5.1\library\rmarkdown\rmarkdown\lua\table-classes.lua" --embed-resources --standalone --variable bs3=TRUE --standalone --section-divs --template "D:\R-4.5.1\library\flexdashboard\www\flex_dashboard\default.html" --variable theme=united --mathjax --variable "mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" --include-in-header "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpWyJZWY\rmarkdown-str1d3475e872af.html" --variable logo=TelevisaU2.jpg --highlight-style pygments --include-in-header "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpWyJZWY\file1d34618570b7html" --include-before-body "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpWyJZWY\file1d344e7277fb.html" --include-after-body "C:\Users\MONICA~1.OLI\AppData\Local\Temp\RtmpWyJZWY\file1d34451eab0.html" 
 [WARNING] Deprecated: --highlight-style. Use --syntax-highlighting instead.
 
 Output created: index.html
@@ -105,10 +105,11 @@ Aviso:
 package 'gert' was built under R version 4.5.3 
 [1] "Iniciando proceso de Git..."
 [1] "Estado del repositorio:"
-# A tibble: 3 × 3
+# A tibble: 4 × 3
   file                             status   staged
   <chr>                            <chr>    <lgl> 
 1 index.html                       modified FALSE 
 2 log_final.txt                    modified FALSE 
 3 Programmes Seguimiento LE_2.xlsx modified FALSE 
+4 Seguimiento LE.xlsx              deleted  FALSE 
 [1] "Añadiendo archivos modificados ('git add')..."

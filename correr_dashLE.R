@@ -14,7 +14,12 @@ library(gert)
 # --- 2. Interactuar con Git ---
 print("Iniciando proceso de Git...")
 
-# (Opcional) Revisar el estado del repositorio
+# 0. Traer cambios del remoto (git pull)
+print("Actualizando repositorio local ('git pull')...")
+git_pull(rebase = TRUE)
+
+
+# 1. Revisar estado
 # Devuelve un data frame con los archivos modificados, nuevos, etc.
 status <- git_status()
 print("Estado del repositorio:")

@@ -1,5 +1,5 @@
 
-setwd("C:/Users/gustavo.garduno/OneDrive - Corporación Televisa, S.A. de C.V/2026/Seguimiento LE/Seguimiento-LE/")
+setwd("C:/Users/gustavo.garduno/OneDrive - Corporación Televisa, S.A. de C.V/2026/Seguimiento LE/Seguimiento-LE")
 
 
 

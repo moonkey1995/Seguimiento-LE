@@ -1,7 +1,7 @@
 
-setwd(here::here())
+setwd("C:/Users/gustavo.garduno/OneDrive - Corporación Televisa, S.A. de C.V/2026/Seguimiento LE/Seguimiento-LE/")
 
-setwd("D:/Seguimiento LE/Seguimiento-LE")
+
 
 # 1. Renderizar el archivo .Rmd
 # Esto creará un archivo .html en la misma carpeta
@@ -36,6 +36,7 @@ git_add(".")
 # Creamos un mensaje de commit dinámico con la fecha.
 commit_message <- paste("Reporte actualizado automáticamente el", Sys.Date())
 print(paste("Haciendo 'git commit' con el mensaje:", commit_message))
+
 git_commit(message = commit_message)
 
 # 5. Subir los cambios al repositorio remoto (como 'git push')

@@ -1,46 +1,57 @@
+# ── CONFIGURACIÓN NECESARIA PARA POWER AUTOMATE ────────────────────────────────
+.libPaths(c(
+  "C:/Users/gustavo.garduno/AppData/Local/R/win-library/4.5",
+  "C:/Program Files/R/R-4.5.2/library"
+))
+Sys.setenv(HOME   = "C:/Seguimiento-LE")
+Sys.setenv(R_USER = "C:/Seguimiento-LE")
+Sys.setenv(TMPDIR = "C:/Seguimiento-LE/tmp")
+Sys.setenv(TMP    = "C:/Seguimiento-LE/tmp")
+Sys.setenv(TEMP   = "C:/Seguimiento-LE/tmp")
+dir.create("C:/Seguimiento-LE/tmp", showWarnings = FALSE, recursive = TRUE)
+rmarkdown::find_pandoc(
+  dir   = "C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools",
+  cache = FALSE
+)
+setwd("C:/Seguimiento-LE")
 
-setwd("C:/Users/gustavo.garduno/OneDrive - Corporación Televisa, S.A. de C.V/2026/Seguimiento LE/Seguimiento-LE")
-
-
-
-# 1. Renderizar el archivo .Rmd
-# Esto creará un archivo .html en la misma carpeta
+# ── 1. Renderizar el archivo .Rmd ──────────────────────────────────────────────
 rmarkdown::render("index.Rmd")
-
-# (Opcional) Mensaje de confirmación en la consola
 print("¡Reporte generado exitosamente!")
 
-library(gert)
-# --- 2. Interactuar con Git ---
+# ── 2. Interactuar con Git ─────────────────────────────────────────────────────
+GIT  <- '"C:/Program Files/Git/cmd/git.exe"'
+repo <- "C:/Seguimiento-LE"
+
+run_git <- function(args) {
+  cmd <- paste0(GIT, ' -C "', repo, '" ', args)
+  result <- system(cmd, intern = TRUE, ignore.stderr = FALSE)
+  cat(result, sep = "\n")
+  return(result)
+}
+
 print("Iniciando proceso de Git...")
 
 # 0. Traer cambios del remoto (git pull)
 print("Actualizando repositorio local ('git pull')...")
-git_pull(rebase = TRUE)
-
+run_git("pull origin main")
 
 # 1. Revisar estado
-# Devuelve un data frame con los archivos modificados, nuevos, etc.
-status <- git_status()
+status <- system(paste0(GIT, ' -C "', repo, '" status'), intern = TRUE)
 print("Estado del repositorio:")
 print(status)
 
-
-# 3. Añadir los archivos al "staging area" (como 'git add')
-# Vamos a añadir el reporte HTML que acabamos de generar.
-# También podríamos añadir el propio .Rmd si lo hemos modificado.
+# 2. Añadir TODOS los archivos (equivalente a git_add("."))
 print("Añadiendo archivos modificados ('git add')...")
-git_add(".") 
+run_git("add .")
 
-# 4. Hacer el commit (como 'git commit')
-# Creamos un mensaje de commit dinámico con la fecha.
-commit_message <- paste("Reporte actualizado automáticamente el", Sys.Date())
+# 3. Hacer el commit
+commit_message <- paste("Reporte actualizado automaticamente el", Sys.Date())
 print(paste("Haciendo 'git commit' con el mensaje:", commit_message))
+run_git(paste0('commit -m "', commit_message, '"'))
 
-git_commit(message = commit_message)
-
-# 5. Subir los cambios al repositorio remoto (como 'git push')
+# 4. Subir los cambios al repositorio remoto (git push)
 print("Subiendo los cambios al remoto ('git push')...")
-git_push()
+run_git("push origin main")
 
 print("¡Proceso de Git finalizado exitosamente!")

@@ -1,4 +1,0 @@
-Error en dir.exists(x): 
-  problema de conversión de nombre de archivo -- ¿nombre del archivo demasiado largo?
-Calls: <Anonymous> ... lapply -> FUN -> dir_exists -> <Anonymous> -> dir.exists
-Ejecución interrumpida

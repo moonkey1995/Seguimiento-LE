@@ -172,6 +172,10 @@ Una vez configurado todo el proceso:
 8. Validar en GitHub
 9. Abrir `index.html` y verificar actualización
 
+--
+
+![](images/flujo.jpg)
+
 ---
 
 # Conclusión

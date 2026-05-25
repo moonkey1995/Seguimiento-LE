@@ -15,6 +15,7 @@ params:
     value: !r Sys.Date()+3
 ---
 
+```{=html}
 <style>
 .colored {
   background-color: #DDDDDD;
@@ -71,7 +72,7 @@ div.scroll{
 .plotly .ytick text { font-size: 10px !important; }
 
 </style>
-
+```
 
 ```{r setup, include=FALSE}
 options(digits=22,scipen = 999)
@@ -113,6 +114,7 @@ ruta<-paste(getwd())
 data<-read_excel(paste0(ruta,"/Programmes Seguimiento LE_2.xlsx"),skip=2,
                  col_types = c("text","text","date","text","text","text","numeric"))#%>% 
  # mutate(`Main Title`=ifelse(`Main Title`=="PIENSA RAPIDO VIP","PIENSA RAPIDO",`Main Title`))
+
 Data<-data %>% mutate(Horas=as.numeric(substr(`Time (sec)`,1,2)),Minutos=as.numeric(substr(`Time (sec)`,4,5)),
                       Minutos_n=ifelse(Minutos%%6==0,Minutos,Minutos+(10-Minutos%%10)))
 
@@ -157,7 +159,6 @@ Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),skip=3,
                     col_types = c("text","text","date","text","numeric","text")) %>% 
   select(-6) %>% mutate(Inicio=substr(`Time (sec)`,1,5))
 ```
-
 
 ```{r include=FALSE}
 # La Función
@@ -283,231 +284,316 @@ return(list(P,FINAL))
 
 ```
 
-Franjas {data-orientation=rows }
-==========================================================================
+# Franjas {data-orientation="rows"}
 
-Row {.tabset .tabset-fade data-height=850}
------------------------------------------------------------------------
+## Row {.tabset .tabset-fade data-height="850"}
 
 ### 07:00-08:00
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f7<-Serie("07:00")
 f7[[1]]
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f7[[2]]
 ```
+
 </div>
-</div>
+::::
 
 ### 08:00-09:00
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f8<-Serie("08:00")
 f8[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f8[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 09:00-12:00
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f9<-Serie("09:00")
 f9[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f9[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 12:00-13:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f12<-Serie("12:00")
 f12[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f12[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 13:30-14:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f13<-Serie("13:30")
 f13[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f13[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 14:30-15:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f14<-Serie("14:30")
 f14[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f14[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 15:30-16:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f15<-Serie("15:30")
 f15[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f15[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 16:30-18:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f16<-Serie("16:30")
 f16[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f16[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 18:30-19:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f18<-Serie("18:30")
 f18[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f18[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 19:30-20:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f19<-Serie("19:30")
 f19[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f19[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 20:30-21:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f20<-Serie("20:30")
 f20[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f20[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 21:30-22:30
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f21<-Serie("21:30")
 f21[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f21[[2]]
 ```
+
 </div>
-</div>
+::::
+
 ### 22:30-23:07
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f22<-Serie("22:30")
 f22[[1]]
 ```
+
 </div>
-</div>
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=4}
 f22[[2]]
 ```
-</div>
-</div>
 
-Grid {data-orientation=rows }
-==========================================================================
+</div>
+::::
 
-Row {.tabset .tabset-fade data-height=500}
------------------------------------------------------------------------
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+# Grid {data-orientation="rows"}
+
+## Row {.tabset .tabset-fade data-height="500"}
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=7}
 # Lista de horarios
 horarios <- c("07:00","08:00","09:00","12:00","13:30","14:30","15:30","16:30",
@@ -547,17 +633,17 @@ p %>% layout(title = "Grid Series",
 )
 
 ```
+
 </div>
-</div>
+::::
 
-Serie conjunta {data-orientation=rows }
-==========================================================================
+# Serie conjunta {data-orientation="rows"}
 
-Row {.tabset .tabset-fade data-height=400}
------------------------------------------------------------------------
+## Row {.tabset .tabset-fade data-height="400"}
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,fig.width=12,fig.height=5}
 BaseJunta<-rbind(Serie("07:00")[[3]],Serie("08:00")[[3]],Serie("09:00")[[3]],Serie("12:00")[[3]],Serie("13:30")[[3]],Serie("14:30")[[3]],Serie("15:30")[[3]],Serie("16:30")[[3]],Serie("18:30")[[3]],Serie("19:30")[[3]],Serie("20:30")[[3]],Serie("21:30")[[3]],Serie("22:30")[[3]])
 n<-length(levels(BaseJunta$Date))
@@ -569,27 +655,30 @@ plot_ly(BaseJunta,x=~Date,y=~`Rtg (000)`, color=~`Inicio` , type = 'scatter',mod
                                  '</br> Franja ', Inicio,
                                  '</br> Fecha ', Date,
                                  '</br> Rat miles: ', round(`Rtg (000)`,0),
-                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`Rtg (000)`,  mode = 'markers',symbols="square",color~ `Inicio`) %>% 
+                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`Rtg (000)`,  mode = 'markers',symbols="square",color~ `Inicio`, showlegend = FALSE) %>% 
   layout(title = "Rating Miles por franja",
          xaxis = list(title = 'Fecha'),
-         yaxis = list(title = 'Rating miles'))%>% hide_legend()
+         yaxis = list(title = 'Rating miles'),
+         legend = list(
+           orientation = "h",
+           xanchor = "center",
+           x = 0.5,
+           y = -0.3
+         ))
 ```
 
 </div>
-</div>
+::::
 
-Resumen {data-orientation=rows }
-==========================================================================
+# Resumen {data-orientation="rows"}
 
-Row {.tabset .tabset-fade data-height=400}
------------------------------------------------------------------------
-<center>
-<font size="5" color="#424242">Días con variaciones mayores al 10% (últimas 8 semanas)</font>
-</center>
+## Row {.tabset .tabset-fade data-height="400"}
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+<center><font size="5" color="#424242">Días con variaciones mayores al 10% (últimas 8 semanas)</font></center>
 
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r,results='asis'}
 Resumen<-rbind(f7[[4]],f8[[4]],f9[[4]],f12[[4]],f13[[4]],f14[[4]],f15[[4]],f16[[4]],f18[[4]],f19[[4]],f20[[4]],f21[[4]],f22[[4]])
 
@@ -605,98 +694,261 @@ Filtro %>%
 }
 tabla("07:00")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("08:00")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("09:00")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("12:00")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("13:30")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("14:30")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("15:30")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("16:30")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("18:30")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("19:30")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+::::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("20:30")
 ```
+
 </div>
+
 <div>
+
 ```{r}
 tabla("21:30")
 ```
-</div>
-</div>
 
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
+</div>
+:::::
+
+:::: {style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;"}
 <div>
+
 ```{r}
 tabla("22:30")
 ```
+
 </div>
+::::
+# Metodología {data-orientation="rows"}
+
+## Row {data-height="900"}
+
+```{=html}
+<style>
+.met-img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 12px; border: 1px solid #e0e0e0; }
+.met-wrap { padding: 1rem 1.5rem 2rem; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 0 auto; }
+.met-intro { background: #f0faf6; border-left: 4px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 1.1rem 1.4rem; margin-bottom: 2rem; }
+.met-intro h2 { font-size: 17px; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
+.met-intro p { font-size: 13.5px; color: #555; margin: 0; line-height: 1.7; }
+.met-sources { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+.met-source-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 1rem 1.2rem; }
+.met-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+.met-badge-prog   { background: #e1f5ee; color: #0f6e56; }
+.met-badge-franja { background: #e6f1fb; color: #185fa5; }
+.met-source-card h3 { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 0 0 5px; }
+.met-source-card p  { font-size: 13px; color: #666; margin: 0; line-height: 1.65; }
+.met-section-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
+.met-modules { display: flex; flex-direction: column; gap: 14px; }
+.met-module  { border: 1px solid #e5e5e5; border-radius: 10px; overflow: hidden; }
+.mod-header  { display: flex; align-items: center; gap: 12px; padding: .85rem 1.2rem; background: #fafafa; border-bottom: 1px solid #eee; }
+.mod-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.mod-n1 { background: #e1f5ee; color: #0f6e56; }
+.mod-n2 { background: #e6f1fb; color: #185fa5; }
+.mod-n3 { background: #faeeda; color: #854f0b; }
+.mod-n4 { background: #faece7; color: #993c1d; }
+.mod-header h3   { font-size: 15px; font-weight: 600; color: #1a1a1a; margin: 0; }
+.mod-header span { font-size: 12px; color: #888; margin-left: auto; }
+.mod-body { padding: 1rem 1.2rem; background: #fff; }
+.mod-body p { font-size: 13.5px; color: #555; line-height: 1.7; margin: 0 0 10px; }
+.mod-body p:last-child { margin-bottom: 0; }
+.met-sub-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.met-sub-item { border-left: 3px solid #e0e0e0; padding: 4px 0 4px 12px; }
+.met-sub-item h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 0 0 3px; }
+.met-sub-item p  { font-size: 13px; color: #666; margin: 0; line-height: 1.6; }
+.met-tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.met-tag { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; background: #f3f3f3; color: #555; border: 1px solid #e0e0e0; }
+</style>
+
+<div class="met-wrap">
+
+  <div class="met-intro">
+    <h2>Tablero de Audiencias &mdash; Las Estrellas</h2>
+    <p>Este dashboard monitorea, analiza y compara el desempeño de ratings de los programas transmitidos de lunes a viernes. Se alimenta de dos fuentes complementarias extraídas de HRMEDIA (Programmes y Timebands), próximamente InsighTV Desktop.</p>
+  </div>
+
+  <p class="met-section-label">Fuentes de información</p>
+  <div class="met-sources">
+    <div class="met-source-card">
+      <span class="met-badge met-badge-prog">Programmes</span>
+      <h3>Base diaria por emisión</h3>
+      <p>Nombre del programa, fecha, hora exacta de inicio/fin y rating diario. Usada para graficar el desempeño reciente (~últimos 40 días laborables) y detectar variaciones día a día.</p>
+    </div>
+    <div class="met-source-card">
+      <span class="met-badge met-badge-franja">Franjas</span>
+      <h3>Base agregada por bloque horario</h3>
+      <p>Agrupada por bloque de tiempo (ej. 09:00–12:00). Permite calcular promedios históricos estandarizados a largo plazo, sin importar cambios de nombre del programa en el pasado.</p>
+    </div>
+  </div>
+
+  <p class="met-section-label">Módulos del tablero</p>
+  <div class="met-modules">
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n1">1</div>
+        <h3>Franjas</h3>
+        <span>Análisis a detalle por horario</span>
+      </div>
+      <div class="mod-body">
+        <p>Sub-pestañas por franja horaria (07:00–22:30 hrs). Cada franja despliega dos gráficas complementarias, representa un año móvil:</p>
+        <div class="met-sub-list">
+          <div class="met-sub-item">
+            <h4>A) Gráfica de tendencia — histórico vs. reciente</h4>
+            <p>Evolución del rating en una ventana de 1 año móvil. Los <strong>puntos azules</strong> (base Franjas) muestran el promedio del semestre anterior y de los meses/semanas previas (Semestre, M6–M4, S12–S9). Los <strong>puntos verdes</strong> (base Programmes) representan los datos exactos de los últimos ~40 días. Si hubo cambio de programación en la franja, cada producción recibe un color distinto. La etiqueta <strong>«(-) Semestre»</strong> en la esquina superior indica el rating promedio del semestre anterior al ultimo mes reportado (M6).</p>
+            <div class="met-tag-row">
+              <span class="met-tag">Semestre</span>
+              <span class="met-tag">M6 · M5 · M4</span>
+              <span class="met-tag">S12 · S11 · S10 · S9</span>
+              <span class="met-tag">~40 días diarios</span>
+            </div>
+          </div>
+          <div class="met-sub-item">
+            <h4>B) Gráfica de variación diaria</h4>
+            <p>Cambio porcentual del rating frente al día anterior. Barras verdes = crecimiento, rojas = caída. Líneas guía en los umbrales de <strong>±10 %, ±20 % y ±30 %</strong>. Ideal para detectar comportamientos atípicos y correlacionarlos con eventos externos (partidos, noticias, etc.).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <img src="C:/Seguimiento-LE/images/Franjas.png" alt="Ejemplo visual" class="met-img">
+    
+    <img src="C:/Seguimiento-LE/images/franja 2.png" alt="Ejemplo visual" class="met-img">
+    
+    
+    
+
+    
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n2">2</div>
+        <h3>Grid</h3>
+        <span>Cuadrícula comparativa</span>
+      </div>
+      <div class="mod-body">
+        <p>Muestra todas las gráficas de tendencia en una sola vista miniatura con el mismo eje de tiempo. Proporciona una "fotografía completa" del canal de un vistazo: permite detectar si una caída de audiencia fue sistémica (todos los horarios) o focalizada (solo matutinos, solo prime time, etc.).</p>
+      </div>
+    </div>
+    
+            <img src="C:/Seguimiento-LE/images/Grid.png" class="met-img">
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n3">3</div>
+        <h3>Serie conjunta</h3>
+        <span>Todas las franjas superpuestas</span>
+      </div>
+      <div class="mod-body">
+        <p>Coloca la tendencia diaria de todos los horarios encimados en una sola gráfica; cada línea y color representa una franja distinta. Permite analizar la jerarquía y el flujo de audiencia a lo largo del día: qué bloque aporta mayor volumen de rating y cómo se comportan las brechas entre programas.</p>
+      </div>
+    </div>
+    
+            <img src="C:/Seguimiento-LE/images/serie conjunta.png" class="met-img">
+    
+
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n4">4</div>
+        <h3>Resumen</h3>
+        <span>Tablas de alertas ejecutivas</span>
+      </div>
+      <div class="mod-body">
+        <p>Recopila en formato tabla todos los días (últimas 8 semanas) en que un programa tuvo una <strong>variación de rating superior al ±10 %</strong>. El porcentaje aparece resaltado en verde (crecimiento) o rojo (caída). Actúa como bitácora de anomalías: sin necesidad de revisar gráfica por gráfica, el usuario obtiene de inmediato el programa, la fecha y la magnitud del cambio.</p>
+      </div>
+    </div>
+
+
+          <img src="C:/Seguimiento-LE/images/Resumen.png" class="met-img">
+    
+
+  </div>
 </div>
-
-Metodología {data-orientation=rows }
-==========================================================================
-
-Row {.tabset .tabset-fade data-height=400}
------------------------------------------------------------------------
-<center>
-<font size="5" color="#424242"> Explicación metodológica del tablero del dashboard</font>
-</center>
-
-<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center;">
-
-<div>
-
-El tablero esta compuetso de 1 ano movil, los 40 dias mas recientes son valores de rating diarios para ada franja y cada programa, estos se realzian mediante una consuta de Programmes en HRMEDIA (proximanete insight TV), los puntos en color azul con la 
+```

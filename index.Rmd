@@ -110,23 +110,39 @@ require(purrr)
 ```{r, include=FALSE}
 ruta<-paste(getwd())
 
-data<-read_excel(paste0(ruta,"/Programmes Seguimiento LE_2.xlsx"),skip=2,
-                 col_types = c("text","text","date","text","text","text","numeric"))#%>% 
+data<-read_excel(paste0(ruta,"/Programmes Seguimiento LE_2.xlsx"),
+                 col_types = c("text","text","date","date","text","text","numeric","numeric")) 
+
+
+data <- data %>% 
+  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S"))
+
  # mutate(`Main Title`=ifelse(`Main Title`=="PIENSA RAPIDO VIP","PIENSA RAPIDO",`Main Title`))
-Data<-data %>% mutate(Horas=as.numeric(substr(`Time (sec)`,1,2)),Minutos=as.numeric(substr(`Time (sec)`,4,5)),
+Data<-data %>% mutate(Horas=as.numeric(substr(`Start Time`,1,2)),Minutos=as.numeric(substr(`Start Time`,4,5)),
                       Minutos_n=ifelse(Minutos%%6==0,Minutos,Minutos+(10-Minutos%%10)))
 
-Data<-Data %>% filter(weekdays(Date)%in%c("lunes","martes","miércoles","jueves","viernes")) %>% filter(`Main Title`!="HOY CELEBREMOS") %>% 
+
+Data<-Data %>% filter(weekdays(Date)%in%c("lunes","martes","miércoles","jueves","viernes")) %>% filter(`Description`!="HOY CELEBREMOS") %>% 
   mutate(Horas=ifelse(Minutos_n==60,Horas+1,Horas),Minutos_n=ifelse(Minutos_n==60|Minutos_n==10,0,Minutos_n)) %>% 
   mutate(Inicio=paste0(ifelse(nchar(Horas)==1,"0",""),Horas,":",ifelse(nchar(Minutos_n)==1,"0",""),Minutos_n))
 
 unique(Data$Inicio)
+
+Data <- Data %>% 
+  mutate(Inicio = case_when(
+    Inicio == "17:30" ~ "16:30",
+    TRUE ~ Inicio  # Esto mantiene igual todo lo que NO sea "17:30"
+  ))
+
+unique(Data$Inicio)
+
 Final<-Data %>% filter(Inicio%in%c("07:00" ,"08:00" ,"09:00", "12:00" ,"13:30", "14:30" ,
-                            "15:30" ,"16:30","18:30", "19:30", "20:30" ,"21:30", "22:30")) %>% 
+                            "15:30" ,"16:30","17:30","18:30", "19:30", "20:30" ,"21:30", "22:30")) %>% 
   mutate(Fin=case_when(Inicio=="07:00"~"08:00",Inicio=="08:00"~"09:00",
                        Inicio=="09:00"~"12:00",Inicio=="12:00"~"13:30",
                        Inicio=="13:30"~"14:30",Inicio=="14:30"~"15:30",
-                       Inicio=="15:30"~"16:30",Inicio=="16:30"~"18:30",
+                       Inicio=="15:30"~"16:30",Inicio=="16:30"~"17:30",
+                       Inicio == "17:30"~"18:30",
                        Inicio=="18:30"~"19:30",Inicio=="19:30"~"20:30",
                        Inicio=="20:30"~"21:30",Inicio=="21:30"~"22:30",
                        Inicio=="22:30"~"23:07")) 
@@ -153,61 +169,75 @@ Sem<-M3_L-1
 lastyear<-Sem-180
 
 ### Serie franjas 
-Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),skip=3,
-                    col_types = c("text","text","date","text","numeric","text")) %>% 
-  select(-6) %>% mutate(Inicio=substr(`Time (sec)`,1,5))
+Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),
+                    col_types = c("text","text","date","date","numeric")) %>% drop_na() %>% 
+  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) %>% mutate(Inicio=substr(`Start Time`,1,5)) %>% rename(`rat#` = `P.2+`)
+
 ```
 
 
 ```{r include=FALSE}
 # La Función
 
-Serie<-function(franja){
-  ##franja<-"14:30"
+Serie <- function(franja){
+  #franja = "16:30"
   ## filtro diario
-  filtro<-Final %>% filter(Inicio==franja) 
-  filtro<-filtro %>% 
-  mutate(rat_prev=c(NA,`Rtg (000)`[1:nrow(filtro)-1]),variación=(`Rtg (000)`/rat_prev-1)*100)
+  filtro <- Final %>% 
+    filter(Inicio == franja) %>%
+    # 1. Agrupamos por Fecha e Inicio para detectar días con múltiples programas
+    group_by(Date, Inicio) %>%
+    summarise(
+      `Description` = paste(unique(`Description`), collapse = " / "), # Concatena los nombres
+      `rat#` = mean(`rat#`, na.rm = TRUE),                            # Promedia el rating
+      .groups = "drop"
+    ) %>%
+    # 2. Aseguramos el orden cronológico estricto
+    arrange(Date) %>% 
+    # 3. Calculamos la variación usando la función lag() que es más segura
+    mutate(
+      rat_prev = lag(`rat#`), 
+      variación = (`rat#` / rat_prev - 1) * 100
+    )
   
   ## filtro promedios
   filtro2<-Franjas %>% filter(Inicio==franja)
 S9<-filtro2 %>% filter(Date>=S1_L,Date<=S1_U) %>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S9")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S9")
 S10<-filtro2 %>% filter(Date>=S2_L,Date<=S2_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S10")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S10")
 S11<-filtro2 %>% filter(Date>=S3_L,Date<=S3_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S11")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S11")
 S12<-filtro2 %>% filter(Date>=S4_L,Date<=S4_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S12")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S12")
 M4<-filtro2 %>% filter(Date>=M1_L,Date<=M1_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M4")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M4")
 M5<-filtro2 %>% filter(Date>=M2_L,Date<=M2_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M5")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M5")
 M6<-filtro2 %>% filter(Date>=M3_L,Date<=M3_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M6")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M6")
 S1<-filtro2 %>% filter(Date>=lastyear,Date<=Sem)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="Semestre")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="Semestre")
 
 Promedios<-rbind(S1,M6,M5,M4,S12,S11,S10,S9) 
 
 ###unir bases
 
-Diario<-filtro %>% select(Date,`Main Title`,`Rtg (000)`,Inicio,rat_prev,`variación`) %>% arrange(Date) %>%  mutate(Date=as.character.Date(Date))
-Promedios_F<-Promedios %>% mutate(`Main Title`="Promedio",`Rtg (000)`=Rat_miles,rat_prev=NA,`variación`=NA)%>% select(Date,`Main Title`,`Rtg (000)`,Inicio,rat_prev,`variación`)
+Diario<-filtro %>% select(Date,`Description`,`rat#`,Inicio,rat_prev,`variación`) %>% arrange(Date) %>%  mutate(Date=as.character.Date(Date))
+Promedios_F<-Promedios %>% mutate(`Description`="Promedio",`rat#`=Rat_miles,rat_prev=NA,`variación`=NA)%>% select(Date,`Description`,`rat#`,Inicio,rat_prev,`variación`)
 ind<-which(abs(Diario$variación)>10)
-dias<-Diario[ind,]%>% arrange(by=desc(abs(`variación`)),) %>% mutate(`Rtg (000)`=round(`Rtg (000)`,0),rat_prev=round(rat_prev,0),`variación`=`variación`%>% round(1)) 
+dias<-Diario[ind,]%>% arrange(by=desc(abs(`variación`)),) %>% mutate(`rat#`=round(`rat#`,0),rat_prev=round(rat_prev,0),`variación`=`variación`%>% round(1)) 
 FINAL<-rbind(Promedios_F,Diario) %>% mutate(Date=factor(Date,levels=c(unique(Promedios_F$Date[-1]),unique(Diario$Date))))
 unique(FINAL$Date)
 levels(FINAL$Date)
 
 ## la gráfica
 
-P<-plot_ly(FINAL[-1,],x=~Date,y=~`Rtg (000)`, color=~`Main Title`,colores=c('forestgreen','orangered',"darkmagenta") , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
-                   text = ~paste('</br> Programa ', `Main Title`,
+P<-plot_ly(FINAL[-1,],x=~Date,y=~`rat#`, color=~`Description`,colores=c('forestgreen','orangered',"darkmagenta") , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
+                   text = ~paste('</br> Programa ', `Description`,
                                  '</br> Fecha ', Date,
-                                 '</br> Rat miles: ', round(`Rtg (000)`,0),
-                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`Rtg (000)`,  mode = 'markers',symbols="square",color~ `Main Title`) %>% 
-  layout(title = paste(filtro$`Main Title`[nrow(filtro)]),
+                                 '</br> Rat miles: ', round(`rat#`,0),
+                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`rat#`,  mode = 'markers',symbols="square",color~ `Description`) %>% 
+  layout(title = paste(filtro$`Description`[nrow(filtro)]),
          xaxis = list(title = 'Fecha'),
          yaxis = list(title = 'Rating miles'),annotations = list(
     list(x = 0.17, y = 1, text = paste("(-) Semestre: ",round(FINAL[1,3],0)), showarrow = FALSE, xref='paper', yref='paper'))
@@ -219,7 +249,7 @@ v<-Diario %>% ggplot(aes(x = Date, y = `variación`)) +
   geom_point(size = 1, pch = 21,bg="black")+scale_color_manual(values=c("red","forestgreen"))+theme_minimal()+theme(axis.text.x = element_text(angle = 270))+geom_text_repel(label=Diario$`variación`)+geom_hline(aes(yintercept=10),linetype="dashed",lwd=0.5,col="gray")+geom_hline(aes(yintercept=-10),linetype="dashed",lwd=0.5,col="gray")+geom_hline(aes(yintercept=20),linetype="dotted",lwd=0.5,col="gray")+geom_hline(aes(yintercept=-20),linetype="dotted",lwd=0.5,col="gray")+geom_hline(aes(yintercept=30),linetype="longdash",lwd=0.5,col="gray")+geom_hline(aes(yintercept=-30),linetype="longdash",lwd=0.5,col="gray")
 
 V<-ggplotly(v)%>% 
-  layout(title = paste("Variaciones de",Diario$`Main Title`[nrow(Diario)]),
+  layout(title = paste("Variaciones de",Diario$`Description`[nrow(Diario)]),
          xaxis = list(title = 'Fecha'),
          yaxis = list(title = 'Variación'))%>% hide_legend()
 
@@ -233,33 +263,33 @@ SerieGrid<-function(franja){
   ## filtro diario
   filtro<-Final %>% filter(Inicio==franja) 
   filtro<-filtro %>% 
-  mutate(rat_prev=c(NA,`Rtg (000)`[1:nrow(filtro)-1]),variación=(`Rtg (000)`/rat_prev-1)*100)
+  mutate(rat_prev=c(NA,`rat#`[1:nrow(filtro)-1]),variación=(`rat#`/rat_prev-1)*100)
   
   ## filtro promedios
   filtro2<-Franjas %>% filter(Inicio==franja)
 S9<-filtro2 %>% filter(Date>=S1_L,Date<=S1_U) %>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S9")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S9")
 S10<-filtro2 %>% filter(Date>=S2_L,Date<=S2_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S10")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S10")
 S11<-filtro2 %>% filter(Date>=S3_L,Date<=S3_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S11")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S11")
 S12<-filtro2 %>% filter(Date>=S4_L,Date<=S4_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="S12")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="S12")
 M4<-filtro2 %>% filter(Date>=M1_L,Date<=M1_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M4")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M4")
 M5<-filtro2 %>% filter(Date>=M2_L,Date<=M2_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M5")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M5")
 M6<-filtro2 %>% filter(Date>=M3_L,Date<=M3_U)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="M6")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="M6")
 S1<-filtro2 %>% filter(Date>=lastyear,Date<=Sem)%>% group_by(Inicio) %>% 
-  summarise(Rat_miles=mean(`Rtg (000)`)) %>% mutate(Date="Semestre")
+  summarise(Rat_miles=mean(`rat#`)) %>% mutate(Date="Semestre")
 
 Promedios<-rbind(S1,M6,M5,M4,S12,S11,S10,S9) 
 
 ###unir bases
 
-Diario<-filtro %>% select(Date,`Main Title`,`Rtg (000)`,Inicio,rat_prev,`variación`) %>% arrange(Date) %>%  mutate(Date=as.character.Date(Date))
-Promedios_F<-Promedios %>% mutate(`Main Title`="Promedio",`Rtg (000)`=Rat_miles,rat_prev=NA,`variación`=NA)%>% select(Date,`Main Title`,`Rtg (000)`,Inicio,rat_prev,`variación`)
+Diario<-filtro %>% select(Date,`Description`,`rat#`,Inicio,rat_prev,`variación`) %>% arrange(Date) %>%  mutate(Date=as.character.Date(Date))
+Promedios_F<-Promedios %>% mutate(`Description`="Promedio",`rat#`=Rat_miles,rat_prev=NA,`variación`=NA)%>% select(Date,`Description`,`rat#`,Inicio,rat_prev,`variación`)
 
 FINAL<-rbind(Promedios_F,Diario) %>% mutate(Date=factor(Date,levels=c(unique(Promedios_F$Date[-1]),unique(Diario$Date))))
 unique(FINAL$Date)
@@ -267,12 +297,12 @@ levels(FINAL$Date)
 
 ## la gráfica
 
-P<-plot_ly(FINAL[-1,],x=~Date,y=~`Rtg (000)`, color=~`Main Title`,colores=c('forestgreen','orangered',"darkmagenta") , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
-                   text = ~paste('</br> Programa ', `Main Title`,
+P<-plot_ly(FINAL[-1,],x=~Date,y=~`rat#`, color=~`Description`,colores=c('forestgreen','orangered',"darkmagenta") , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
+                   text = ~paste('</br> Programa ', `Description`,
                                  '</br> Fecha ', Date,
-                                 '</br> Rat miles: ', round(`Rtg (000)`,0),
-                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`Rtg (000)`,  mode = 'markers',symbols="square",color~ `Main Title`) %>% 
-  layout(title = list(text=paste(filtro$`Main Title`[nrow(filtro)])),
+                                 '</br> Rat miles: ', round(`rat#`,0),
+                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`rat#`,  mode = 'markers',symbols="square",color~ `Description`) %>% 
+  layout(title = list(text=paste(filtro$`Description`[nrow(filtro)])),
          xaxis = list(title = 'Fecha' ),
          yaxis = list(title = 'Rating miles')
   )%>% hide_legend()
@@ -550,6 +580,7 @@ p %>% layout(title = "Grid Series",
 </div>
 </div>
 
+
 Serie conjunta {data-orientation=rows }
 ==========================================================================
 
@@ -562,17 +593,23 @@ Row {.tabset .tabset-fade data-height=400}
 BaseJunta<-rbind(Serie("07:00")[[3]],Serie("08:00")[[3]],Serie("09:00")[[3]],Serie("12:00")[[3]],Serie("13:30")[[3]],Serie("14:30")[[3]],Serie("15:30")[[3]],Serie("16:30")[[3]],Serie("18:30")[[3]],Serie("19:30")[[3]],Serie("20:30")[[3]],Serie("21:30")[[3]],Serie("22:30")[[3]])
 n<-length(levels(BaseJunta$Date))
 levels(BaseJunta$Date)<-c(levels(BaseJunta$Date)[1:8],levels(BaseJunta$Date)[9:n] %>% as.Date() %>% sort() %>% as.character.Date())
-#BaseJunta %>% ggplot(aes(x=Date,y=`Rtg (000)`,group=Inicio,col=Inicio))+geom_line()
+#BaseJunta %>% ggplot(aes(x=Date,y=`rat#`,group=Inicio,col=Inicio))+geom_line()
 
-plot_ly(BaseJunta,x=~Date,y=~`Rtg (000)`, color=~`Inicio` , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
-                   text = ~paste('</br> Programa ', `Main Title`,
+plot_ly(BaseJunta,x=~Date,y=~`rat#`, color=~`Inicio` , type = 'scatter',mode="lines-markers",hoverinfo = 'text',
+                   text = ~paste('</br> Programa ', `Description`,
                                  '</br> Franja ', Inicio,
                                  '</br> Fecha ', Date,
-                                 '</br> Rat miles: ', round(`Rtg (000)`,0),
-                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`Rtg (000)`,  mode = 'markers',symbols="square",color~ `Inicio`) %>% 
+                                 '</br> Rat miles: ', round(`rat#`,0),
+                                 '</br> Variación: ', round(`variación`,1),"%"))%>% add_trace(y=~`rat#`,  mode = 'markers',symbols="square",color~ `Inicio`,showlegend = FALSE) %>% 
   layout(title = "Rating Miles por franja",
          xaxis = list(title = 'Fecha'),
-         yaxis = list(title = 'Rating miles'))%>% hide_legend()
+         yaxis = list(title = 'Rating miles'),
+         legend = list(
+           orientation = "h",
+           xanchor = "center",
+           x = 0.5,
+           y = -0.3
+         ))
 ```
 
 </div>
@@ -685,6 +722,158 @@ tabla("22:30")
 ```
 </div>
 </div>
+
+
+
+# Metodología {data-orientation="rows"}
+
+## Row {data-height="900"}
+
+```{=html}
+<style>
+.met-img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 12px; border: 1px solid #e0e0e0; }
+.met-wrap { padding: 1rem 1.5rem 2rem; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 0 auto; }
+.met-intro { background: #f0faf6; border-left: 4px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 1.1rem 1.4rem; margin-bottom: 2rem; }
+.met-intro h2 { font-size: 17px; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
+.met-intro p { font-size: 13.5px; color: #555; margin: 0; line-height: 1.7; }
+.met-sources { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+.met-source-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 1rem 1.2rem; }
+.met-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+.met-badge-prog   { background: #e1f5ee; color: #0f6e56; }
+.met-badge-franja { background: #e6f1fb; color: #185fa5; }
+.met-source-card h3 { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 0 0 5px; }
+.met-source-card p  { font-size: 13px; color: #666; margin: 0; line-height: 1.65; }
+.met-section-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
+.met-modules { display: flex; flex-direction: column; gap: 14px; }
+.met-module  { border: 1px solid #e5e5e5; border-radius: 10px; overflow: hidden; }
+.mod-header  { display: flex; align-items: center; gap: 12px; padding: .85rem 1.2rem; background: #fafafa; border-bottom: 1px solid #eee; }
+.mod-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.mod-n1 { background: #e1f5ee; color: #0f6e56; }
+.mod-n2 { background: #e6f1fb; color: #185fa5; }
+.mod-n3 { background: #faeeda; color: #854f0b; }
+.mod-n4 { background: #faece7; color: #993c1d; }
+.mod-header h3   { font-size: 15px; font-weight: 600; color: #1a1a1a; margin: 0; }
+.mod-header span { font-size: 12px; color: #888; margin-left: auto; }
+.mod-body { padding: 1rem 1.2rem; background: #fff; }
+.mod-body p { font-size: 13.5px; color: #555; line-height: 1.7; margin: 0 0 10px; }
+.mod-body p:last-child { margin-bottom: 0; }
+.met-sub-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.met-sub-item { border-left: 3px solid #e0e0e0; padding: 4px 0 4px 12px; }
+.met-sub-item h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 0 0 3px; }
+.met-sub-item p  { font-size: 13px; color: #666; margin: 0; line-height: 1.6; }
+.met-tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.met-tag { font-size: 11.5px; padding: 3px 9px; border-radius: 20px; background: #f3f3f3; color: #555; border: 1px solid #e0e0e0; }
+</style>
+
+<div class="met-wrap">
+
+  <div class="met-intro">
+    <h2>Tablero de Audiencias &mdash; Las Estrellas</h2>
+    <p>Este dashboard monitorea, analiza y compara el desempeño de ratings de los programas transmitidos de lunes a viernes. Se alimenta de dos fuentes complementarias extraídas de HRMEDIA (Programmes y Timebands), próximamente InsighTV Desktop.</p>
+  </div>
+
+  <p class="met-section-label">Fuentes de información</p>
+  <div class="met-sources">
+    <div class="met-source-card">
+      <span class="met-badge met-badge-prog">Programmes</span>
+      <h3>Base diaria por emisión</h3>
+      <p>Nombre del programa, fecha, hora exacta de inicio/fin y rating diario. Usada para graficar el desempeño reciente (~últimos 40 días laborables) y detectar variaciones día a día.</p>
+    </div>
+    <div class="met-source-card">
+      <span class="met-badge met-badge-franja">Franjas</span>
+      <h3>Base agregada por bloque horario</h3>
+      <p>Agrupada por bloque de tiempo (ej. 09:00–12:00). Permite calcular promedios históricos estandarizados a largo plazo, sin importar cambios de nombre del programa en el pasado.</p>
+    </div>
+  </div>
+
+  <p class="met-section-label">Módulos del tablero</p>
+  <div class="met-modules">
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n1">1</div>
+        <h3>Franjas</h3>
+        <span>Análisis a detalle por horario</span>
+      </div>
+      <div class="mod-body">
+        <p>Sub-pestañas por franja horaria (07:00–22:30 hrs). Cada franja despliega dos gráficas complementarias, representa un año móvil:</p>
+        <div class="met-sub-list">
+          <div class="met-sub-item">
+            <h4>A) Gráfica de tendencia — histórico vs. reciente</h4>
+            <p>Evolución del rating en una ventana de 1 año móvil. Los <strong>puntos azules</strong> (base Franjas) muestran el promedio del semestre anterior y de los meses/semanas previas (Semestre, M6–M4, S12–S9). Los <strong>puntos verdes</strong> (base Programmes) representan los datos exactos de los últimos ~40 días. Si hubo cambio de programación en la franja, cada producción recibe un color distinto. La etiqueta <strong>«(-) Semestre»</strong> en la esquina superior indica el rating promedio del semestre anterior al ultimo mes reportado (M6).</p>
+            <div class="met-tag-row">
+              <span class="met-tag">Semestre</span>
+              <span class="met-tag">M6 · M5 · M4</span>
+              <span class="met-tag">S12 · S11 · S10 · S9</span>
+              <span class="met-tag">~40 días diarios</span>
+            </div>
+          </div>
+          <div class="met-sub-item">
+            <h4>B) Gráfica de variación diaria</h4>
+            <p>Cambio porcentual del rating frente al día anterior. Barras verdes = crecimiento, rojas = caída. Líneas guía en los umbrales de <strong>±10 %, ±20 % y ±30 %</strong>. Ideal para detectar comportamientos atípicos y correlacionarlos con eventos externos (partidos, noticias, etc.).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <img src="C:/Seguimiento-LE/images/Franjas.png" alt="Ejemplo visual" class="met-img">
+    
+    <img src="C:/Seguimiento-LE/images/franja 2.png" alt="Ejemplo visual" class="met-img">
+    
+    
+    
+
+    
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n2">2</div>
+        <h3>Grid</h3>
+        <span>Cuadrícula comparativa</span>
+      </div>
+      <div class="mod-body">
+        <p>Muestra todas las gráficas de tendencia en una sola vista miniatura con el mismo eje de tiempo. Proporciona una "fotografía completa" del canal de un vistazo: permite detectar si una caída de audiencia fue sistémica (todos los horarios) o focalizada (solo matutinos, solo prime time, etc.).</p>
+      </div>
+    </div>
+    
+            <img src="C:/Seguimiento-LE/images/Grid.png" class="met-img">
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n3">3</div>
+        <h3>Serie conjunta</h3>
+        <span>Todas las franjas superpuestas</span>
+      </div>
+      <div class="mod-body">
+        <p>Coloca la tendencia diaria de todos los horarios encimados en una sola gráfica; cada línea y color representa una franja distinta. Permite analizar la jerarquía y el flujo de audiencia a lo largo del día: qué bloque aporta mayor volumen de rating y cómo se comportan las brechas entre programas.</p>
+      </div>
+    </div>
+    
+            <img src="C:/Seguimiento-LE/images/serie conjunta.png" class="met-img">
+    
+
+
+    <div class="met-module">
+      <div class="mod-header">
+        <div class="mod-num mod-n4">4</div>
+        <h3>Resumen</h3>
+        <span>Tablas de alertas ejecutivas</span>
+      </div>
+      <div class="mod-body">
+        <p>Recopila en formato tabla todos los días (últimas 8 semanas) en que un programa tuvo una <strong>variación de rating superior al ±10 %</strong>. El porcentaje aparece resaltado en verde (crecimiento) o rojo (caída). Actúa como bitácora de anomalías: sin necesidad de revisar gráfica por gráfica, el usuario obtiene de inmediato el programa, la fecha y la magnitud del cambio.</p>
+      </div>
+    </div>
+
+
+          <img src="C:/Seguimiento-LE/images/Resumen.png" class="met-img">
+    
+
+  </div>
+</div>
+```
+
+
 
 
 

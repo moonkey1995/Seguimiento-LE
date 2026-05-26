@@ -261,9 +261,22 @@ return(list(P,V,FINAL,dias))
 SerieGrid<-function(franja){
   ##franja<-"22:30"
   ## filtro diario
-  filtro<-Final %>% filter(Inicio==franja) 
-  filtro<-filtro %>% 
-  mutate(rat_prev=c(NA,`rat#`[1:nrow(filtro)-1]),variación=(`rat#`/rat_prev-1)*100)
+   filtro <- Final %>% 
+    filter(Inicio == franja) %>%
+    # 1. Agrupamos por Fecha e Inicio para detectar días con múltiples programas
+    group_by(Date, Inicio) %>%
+    summarise(
+      `Description` = paste(unique(`Description`), collapse = " / "), # Concatena los nombres
+      `rat#` = mean(`rat#`, na.rm = TRUE),                            # Promedia el rating
+      .groups = "drop"
+    ) %>%
+    # 2. Aseguramos el orden cronológico estricto
+    arrange(Date) %>% 
+    # 3. Calculamos la variación usando la función lag() que es más segura
+    mutate(
+      rat_prev = lag(`rat#`), 
+      variación = (`rat#` / rat_prev - 1) * 100
+    )
   
   ## filtro promedios
   filtro2<-Franjas %>% filter(Inicio==franja)

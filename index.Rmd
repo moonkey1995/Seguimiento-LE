@@ -769,7 +769,7 @@ tabla("22:30")
 
   <div class="met-intro">
     <h2>Tablero de Audiencias &mdash; Las Estrellas</h2>
-    <p>Este dashboard monitorea, analiza y compara el desempeño de ratings de los programas transmitidos de lunes a viernes. Se alimenta de dos fuentes complementarias extraídas de HRMEDIA (Programmes y Timebands), próximamente InsighTV Desktop.</p>
+    <p>Este dashboard monitorea, analiza y compara el desempeño de ratings de los programas transmitidos de lunes a viernes. Se alimenta de dos fuentes complementarias (Programmes y Timebands) extraídas de InsighTV Desktop.</p>
   </div>
 
   <p class="met-section-label">Fuentes de información</p>

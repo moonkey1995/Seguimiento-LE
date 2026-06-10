@@ -115,14 +115,17 @@ data<-read_excel(paste0(ruta,"/Programmes Seguimiento LE_2.xlsx"),
 
 
 data <- data %>% 
-  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S"))
+  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) 
 
- # mutate(`Main Title`=ifelse(`Main Title`=="PIENSA RAPIDO VIP","PIENSA RAPIDO",`Main Title`))
+
+
+##  mutate(`Main Title`=ifelse(`Description`=="HOY CELEBREMOS","HOY",`Description`))
+
 Data<-data %>% mutate(Horas=as.numeric(substr(`Start Time`,1,2)),Minutos=as.numeric(substr(`Start Time`,4,5)),
                       Minutos_n=ifelse(Minutos%%6==0,Minutos,Minutos+(10-Minutos%%10)))
 
 
-Data<-Data %>% filter(weekdays(Date)%in%c("lunes","martes","miércoles","jueves","viernes")) %>% filter(`Description`!="HOY CELEBREMOS") %>% 
+Data<-Data %>% filter(weekdays(Date)%in%c("lunes","martes","miércoles","jueves","viernes")) %>% 
   mutate(Horas=ifelse(Minutos_n==60,Horas+1,Horas),Minutos_n=ifelse(Minutos_n==60|Minutos_n==10,0,Minutos_n)) %>% 
   mutate(Inicio=paste0(ifelse(nchar(Horas)==1,"0",""),Horas,":",ifelse(nchar(Minutos_n)==1,"0",""),Minutos_n))
 

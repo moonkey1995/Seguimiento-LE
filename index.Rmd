@@ -119,7 +119,7 @@ data <- data %>%
 
 
 
-##  mutate(`Main Title`=ifelse(`Description`=="HOY CELEBREMOS","HOY",`Description`))
+##  mutate(`Description`=ifelse(`Description`=="HOY CELEBREMOS","HOY",`Description`))
 
 Data<-data %>% mutate(Horas=as.numeric(substr(`Start Time`,1,2)),Minutos=as.numeric(substr(`Start Time`,4,5)),
                       Minutos_n=ifelse(Minutos%%6==0,Minutos,Minutos+(10-Minutos%%10)))
@@ -174,7 +174,10 @@ lastyear<-Sem-180
 ### Serie franjas 
 Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),
                     col_types = c("text","text","date","date","numeric")) %>% drop_na() %>% 
-  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) %>% mutate(Inicio=substr(`Start Time`,1,5)) %>% rename(`rat#` = `P.2+`)
+  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) %>% mutate(Inicio=substr(`Start Time`,1,5)) %>% rename(`rat#` = `P2+`)
+
+#####################ojito monica ocupo p2+ y yo p.2+ hacer el cambio el vienrees ver esta parte del codigo
+
 
 ```
 

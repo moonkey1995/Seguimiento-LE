@@ -236,33 +236,56 @@ Serie <- function(franja){
   FINAL <- FINAL %>%
     mutate(bloque = cumsum(Description != lag(Description, default = first(Description))))
 
-  ## 4. Gráfica de Serie (Plotly)
-  P <- plot_ly(
-    FINAL[-1, ],
+ ## la gráfica (Línea continua + Puntos coloreados por programa)
+
+P <- plot_ly(FINAL[-1, ]) %>%
+  
+  # 1. LÍNEA CONTINUA: une todos los días de forma secuencial sin importar el programa
+  add_trace(
+    x = ~Date,
+    y = ~`rat#`,
+    type = 'scatter',
+    mode = 'lines',
+    line = list(color = 'gray70', width = 1.5), # Línea guía continua
+    showlegend = FALSE,
+    hoverinfo = 'none'
+  ) %>%
+  
+  # 2. PUNTOS/MARCADORES: se colorean según el título (Description)
+  add_trace(
     x = ~Date,
     y = ~`rat#`,
     color = ~`Description`,
-    split = ~bloque, # <-- Separa los segmentos no continuos
-    colors = c('forestgreen', 'orangered', "darkmagenta"),
+    colors = c('forestgreen', 'orangered', 'darkmagenta'),
     type = 'scatter',
-    mode = "lines+markers",
+    mode = 'markers',
+    marker = list(size = 8, symbol = "square"),
     hoverinfo = 'text',
     text = ~paste(
-      '</br> Programa ', `Description`,
-      '</br> Fecha ', Date,
+      '</br> Programa: ', `Description`,
+      '</br> Fecha: ', Date,
       '</br> Rat miles: ', round(`rat#`, 0),
       '</br> Variación: ', round(`variación`, 1), "%"
     )
-  ) %>% 
+  ) %>%
+  
+  # Layout y anotaciones
   layout(
     title = paste(filtro$`Description`[nrow(filtro)]),
     xaxis = list(title = 'Fecha'),
     yaxis = list(title = 'Rating miles'),
     annotations = list(
-      list(x = 0.17, y = 1, text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), showarrow = FALSE, xref = 'paper', yref = 'paper')
+      list(
+        x = 0.17, y = 1, 
+        text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), 
+        showarrow = FALSE, 
+        xref = 'paper', 
+        yref = 'paper'
+      )
     )
   ) %>% 
   hide_legend()
+
 
   ## 5. Gráfica de Variaciones (ggplotly)
   Diario <- Diario %>% mutate(Type = ifelse(`variación` > 0, "Positiva", "Negativa"))

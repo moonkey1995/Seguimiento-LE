@@ -108,3 +108,74 @@ From https://github.com/moonkey1995/Seguimiento-LE
  * branch            main       -> FETCH_HEAD
 Already up to date.
 [1] "Already up to date."
+[1] "Estado del repositorio:"
+ [1] "On branch main"                                                           
+ [2] "Your branch is up to date with 'origin/main'."                            
+ [3] ""                                                                         
+ [4] "Changes not staged for commit:"                                           
+ [5] "  (use \"git add <file>...\" to update what will be committed)"           
+ [6] "  (use \"git restore <file>...\" to discard changes in working directory)"
+ [7] "\tmodified:   Programmes Seguimiento LE_2.xlsx"                           
+ [8] "\tmodified:   Time LE Franjas_2.xlsx"                                     
+ [9] "\tmodified:   index.html"                                                 
+[10] ""                                                                         
+[11] "Untracked files:"                                                         
+[12] "  (use \"git add <file>...\" to include in what will be committed)"       
+[13] "\tConsultas antiguas/Programmes Seguimiento LE_2 24072026.xlsx"           
+[14] "\tConsultas antiguas/Time LE Franjas_2 24072026.xlsx"                     
+[15] ""                                                                         
+[16] "no changes added to commit (use \"git add\" and/or \"git commit -a\")"    
+[1] "Añadiendo archivos modificados ('git add')..."
+warning: in the working copy of 'log_final.txt', LF will be replaced by CRLF the next time Git touches it
+
+character(0)
+[1] "Haciendo 'git commit' con el mensaje: Reporte actualizado automaticamente el 2026-07-24"
+[main 587b864] Reporte actualizado automaticamente el 2026-07-24
+ Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 6 files changed, 291 insertions(+), 141 deletions(-)
+ create mode 100644 Consultas antiguas/Programmes Seguimiento LE_2 24072026.xlsx
+ create mode 100644 Consultas antiguas/Time LE Franjas_2 24072026.xlsx
+ [1] "[main 587b864] Reporte actualizado automaticamente el 2026-07-24"                                                                 
+ [2] " Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>"
+ [3] "Your name and email address were configured automatically based"                                                                  
+ [4] "on your username and hostname. Please check that they are accurate."                                                              
+ [5] "You can suppress this message by setting them explicitly. Run the"                                                                
+ [6] "following command and follow the instructions in your editor to edit"                                                             
+ [7] "your configuration file:"                                                                                                         
+ [8] ""                                                                                                                                 
+ [9] "    git config --global --edit"                                                                                                   
+[10] ""                                                                                                                                 
+[11] "After doing this, you may fix the identity used for this commit with:"                                                            
+[12] ""                                                                                                                                 
+[13] "    git commit --amend --reset-author"                                                                                            
+[14] ""                                                                                                                                 
+[15] " 6 files changed, 291 insertions(+), 141 deletions(-)"                                                                            
+[16] " create mode 100644 Consultas antiguas/Programmes Seguimiento LE_2 24072026.xlsx"                                                 
+[17] " create mode 100644 Consultas antiguas/Time LE Franjas_2 24072026.xlsx"                                                           
+[1] "Subiendo los cambios al remoto ('git push')..."
+remote: Internal Server Error        
+remote: Request ID B421:27F28F:1033EE:167DC6:6A638F01        
+remote: Time 2026-07-24T16:12:51Z
+To https://github.com/moonkey1995/Seguimiento-LE
+ ! [remote rejected] main -> main (Internal Server Error)
+error: failed to push some refs to 'https://github.com/moonkey1995/Seguimiento-LE'
+
+character(0)
+attr(,"status")
+[1] 1
+Aviso:
+In system(cmd, intern = TRUE, ignore.stderr = FALSE) :
+  el comando ejecutado '"C:/Program Files/Git/cmd/git.exe" -C "C:/Seguimiento-LE" push origin main' tiene el estatus 1
+[1] "¡Proceso de Git finalizado exitosamente!"

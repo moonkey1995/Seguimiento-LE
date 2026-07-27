@@ -359,17 +359,17 @@ SerieGrid <- function(franja){
   layout(
     title = paste(filtro$`Description`[nrow(filtro)]),
     xaxis = list(title = 'Fecha'),
-    yaxis = list(title = 'Rating miles'),
-    annotations = list(
-      list(
-        x = 0.17, 
-        y = 1, 
-        text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), 
-        showarrow = FALSE, 
-        xref = 'paper', 
-        yref = 'paper'
-      )
-    )
+    yaxis = list(title = 'Rating miles')
+   # annotations = list(
+    #  list(
+     #   x = 0.17, 
+      #  y = 1, 
+       # text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), 
+      #  showarrow = FALSE, 
+      #  xref = 'paper', 
+      #  yref = 'paper'
+    #  )
+  #  )
   ) %>% 
   hide_legend()
 

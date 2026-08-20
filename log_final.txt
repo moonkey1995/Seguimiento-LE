@@ -98,75 +98,7 @@ processing file: index.Rmd
 89/89                   
 output file: index.knit.md
 
-"C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/pandoc" +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\latex-div.lua" --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\table-classes.lua" --embed-resources --standalone --variable bs3=TRUE --standalone --section-divs --template "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\flexdashboard\www\flex_dashboard\default.html" --variable theme=united --mathjax --variable "mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" --include-in-header "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpGY5wUn\rmarkdown-str63303aba5818.html" --variable logo=TelevisaU2.jpg --highlight-style pygments --include-in-header "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpGY5wUn\file63302fa07d91.html" --include-before-body "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpGY5wUn\file63302bd257c5.html" --include-after-body "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpGY5wUn\file633072f63ab2.html" 
+"C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/pandoc" +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\latex-div.lua" --lua-filter "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\rmarkdown\rmarkdown\lua\table-classes.lua" --embed-resources --standalone --variable bs3=TRUE --standalone --section-divs --template "C:\Users\gustavo.garduno\AppData\Local\R\win-library\4.5\flexdashboard\www\flex_dashboard\default.html" --variable theme=united --mathjax --variable "mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" --include-in-header "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpOO2zhs\rmarkdown-str73d851e02f3a.html" --variable logo=TelevisaU2.jpg --highlight-style pygments --include-in-header "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpOO2zhs\file73d870591566.html" --include-before-body "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpOO2zhs\file73d8512f3079.html" --include-after-body "C:\Users\GUSTAV~1.GAR\AppData\Local\Temp\RtmpOO2zhs\file73d8605a166a.html" 
 
 Output created: index.html
 [1] "¡Reporte generado exitosamente!"
-[1] "Iniciando proceso de Git..."
-[1] "Actualizando repositorio local ('git pull')..."
-From https://github.com/moonkey1995/Seguimiento-LE
- * branch            main       -> FETCH_HEAD
-Already up to date.
-[1] "Already up to date."
-[1] "Estado del repositorio:"
- [1] "On branch main"                                                           
- [2] "Your branch is up to date with 'origin/main'."                            
- [3] ""                                                                         
- [4] "Changes not staged for commit:"                                           
- [5] "  (use \"git add <file>...\" to update what will be committed)"           
- [6] "  (use \"git restore <file>...\" to discard changes in working directory)"
- [7] "\tmodified:   Programmes Seguimiento LE_2.xlsx"                           
- [8] "\tmodified:   Time LE Franjas_2.xlsx"                                     
- [9] "\tmodified:   index.html"                                                 
-[10] "\tmodified:   log_final.txt"                                              
-[11] ""                                                                         
-[12] "Untracked files:"                                                         
-[13] "  (use \"git add <file>...\" to include in what will be committed)"       
-[14] "\tConsultas antiguas/Programmes Seguimiento LE_2 190826.xlsx"             
-[15] "\tConsultas antiguas/Time LE Franjas_2 190826.xlsx"                       
-[16] ""                                                                         
-[17] "no changes added to commit (use \"git add\" and/or \"git commit -a\")"    
-[1] "Añadiendo archivos modificados ('git add')..."
-
-character(0)
-[1] "Haciendo 'git commit' con el mensaje: Reporte actualizado automaticamente el 2026-08-19"
-[main acf0898] Reporte actualizado automaticamente el 2026-08-19
- Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>
-Your name and email address were configured automatically based
-on your username and hostname. Please check that they are accurate.
-You can suppress this message by setting them explicitly. Run the
-following command and follow the instructions in your editor to edit
-your configuration file:
-
-    git config --global --edit
-
-After doing this, you may fix the identity used for this commit with:
-
-    git commit --amend --reset-author
-
- 6 files changed, 147 insertions(+), 257 deletions(-)
- create mode 100644 Consultas antiguas/Programmes Seguimiento LE_2 190826.xlsx
- create mode 100644 Consultas antiguas/Time LE Franjas_2 190826.xlsx
- [1] "[main acf0898] Reporte actualizado automaticamente el 2026-08-19"                                                                 
- [2] " Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>"
- [3] "Your name and email address were configured automatically based"                                                                  
- [4] "on your username and hostname. Please check that they are accurate."                                                              
- [5] "You can suppress this message by setting them explicitly. Run the"                                                                
- [6] "following command and follow the instructions in your editor to edit"                                                             
- [7] "your configuration file:"                                                                                                         
- [8] ""                                                                                                                                 
- [9] "    git config --global --edit"                                                                                                   
-[10] ""                                                                                                                                 
-[11] "After doing this, you may fix the identity used for this commit with:"                                                            
-[12] ""                                                                                                                                 
-[13] "    git commit --amend --reset-author"                                                                                            
-[14] ""                                                                                                                                 
-[15] " 6 files changed, 147 insertions(+), 257 deletions(-)"                                                                            
-[16] " create mode 100644 Consultas antiguas/Programmes Seguimiento LE_2 190826.xlsx"                                                   
-[17] " create mode 100644 Consultas antiguas/Time LE Franjas_2 190826.xlsx"                                                             
-[1] "Subiendo los cambios al remoto ('git push')..."
-To https://github.com/moonkey1995/Seguimiento-LE
-   db5e11b..acf0898  main -> main
-
-character(0)
-[1] "¡Proceso de Git finalizado exitosamente!"

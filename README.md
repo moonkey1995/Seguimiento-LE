@@ -91,7 +91,7 @@ Nota: algunos paquetes como `fpp2` requieren paquetes adicionales o versiones es
 - Q: Errores por paquetes faltantes. A: Instala los paquetes listados arriba y reinicia RStudio.
 
 ## Contacto
-- Autor / Responsable: Mónica Olivares (según Manual)
+- Autor / Responsable: Mónica Olivares y Gustavo Garduño
 - Repo: https://github.com/moonkey1995/Seguimiento-LE
 
 ## Licencia

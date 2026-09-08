@@ -108,3 +108,59 @@ From https://github.com/moonkey1995/Seguimiento-LE
  * branch            main       -> FETCH_HEAD
 Already up to date.
 [1] "Already up to date."
+[1] "Estado del repositorio:"
+ [1] "On branch main"                                                           
+ [2] "Your branch is up to date with 'origin/main'."                            
+ [3] ""                                                                         
+ [4] "Changes not staged for commit:"                                           
+ [5] "  (use \"git add/rm <file>...\" to update what will be committed)"        
+ [6] "  (use \"git restore <file>...\" to discard changes in working directory)"
+ [7] "\tmodified:   Programmes Seguimiento LE_2.xlsx"                           
+ [8] "\tmodified:   Time LE Franjas_2.xlsx"                                     
+ [9] "\tmodified:   index.html"                                                 
+[10] "\tdeleted:    ~$Time LE Franjas_2.xlsx"                                   
+[11] ""                                                                         
+[12] "no changes added to commit (use \"git add\" and/or \"git commit -a\")"    
+[1] "Añadiendo archivos modificados ('git add')..."
+warning: in the working copy of 'log_final.txt', LF will be replaced by CRLF the next time Git touches it
+
+character(0)
+[1] "Haciendo 'git commit' con el mensaje: Reporte actualizado automaticamente el 2026-09-08"
+[main 800b25b] Reporte actualizado automaticamente el 2026-09-08
+ Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 5 files changed, 246 insertions(+), 116 deletions(-)
+ delete mode 100644 ~$Time LE Franjas_2.xlsx
+ [1] "[main 800b25b] Reporte actualizado automaticamente el 2026-09-08"                                                                 
+ [2] " Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>"
+ [3] "Your name and email address were configured automatically based"                                                                  
+ [4] "on your username and hostname. Please check that they are accurate."                                                              
+ [5] "You can suppress this message by setting them explicitly. Run the"                                                                
+ [6] "following command and follow the instructions in your editor to edit"                                                             
+ [7] "your configuration file:"                                                                                                         
+ [8] ""                                                                                                                                 
+ [9] "    git config --global --edit"                                                                                                   
+[10] ""                                                                                                                                 
+[11] "After doing this, you may fix the identity used for this commit with:"                                                            
+[12] ""                                                                                                                                 
+[13] "    git commit --amend --reset-author"                                                                                            
+[14] ""                                                                                                                                 
+[15] " 5 files changed, 246 insertions(+), 116 deletions(-)"                                                                            
+[16] " delete mode 100644 ~$Time LE Franjas_2.xlsx"                                                                                     
+[1] "Subiendo los cambios al remoto ('git push')..."
+To https://github.com/moonkey1995/Seguimiento-LE
+   fa7050e..800b25b  main -> main
+
+character(0)
+[1] "¡Proceso de Git finalizado exitosamente!"

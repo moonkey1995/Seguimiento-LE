@@ -1,6 +1,6 @@
 ---
 title: Variaciones de "Las Estrellas"
-author: "Lunes a Viernes"
+author: "Total Persons, Lunes a Viernes"
 output: 
   flexdashboard::flex_dashboard:
     logo: "TelevisaU2.jpg"
@@ -185,8 +185,9 @@ Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),
 ```{r include=FALSE}
 # La Función
 
+# La Función
 Serie <- function(franja){
-  ## 1. Filtro diario
+  ## 1. Filtro diario (Aprox. las últimas 8 semanas)
   filtro <- Final %>% 
     filter(Inicio == franja) %>%
     group_by(Date, Inicio) %>%
@@ -201,7 +202,7 @@ Serie <- function(franja){
       variación = (`rat#` / rat_prev - 1) * 100
     )
   
-  ## 2. Filtro promedios
+  ## 2. Filtro promedios (S9 a S12, M4 a M6 y Semestre)
   filtro2 <- Franjas %>% filter(Inicio == franja)
   S9  <- filtro2 %>% filter(Date >= S1_L, Date <= S1_U) %>% group_by(Inicio) %>% summarise(Rat_miles = mean(`rat#`)) %>% mutate(Date = "S9")
   S10 <- filtro2 %>% filter(Date >= S2_L, Date <= S2_U) %>% group_by(Inicio) %>% summarise(Rat_miles = mean(`rat#`)) %>% mutate(Date = "S10")
@@ -236,33 +237,76 @@ Serie <- function(franja){
   FINAL <- FINAL %>%
     mutate(bloque = cumsum(Description != lag(Description, default = first(Description))))
 
+  ## CÁLCULO DE MEDIA Y BANDAS SIGMA (Exclusivo sobre los datos Diarios recientes)
+  media_diaria <- mean(Diario$`rat#`, na.rm = TRUE)
+  sd_diaria <- sd(Diario$`rat#`, na.rm = TRUE)
+  sigma_sup <- media_diaria + sd_diaria
+  sigma_inf <- media_diaria - sd_diaria
+
+  # DataFrame auxiliar corregido (Cambiamos Sup por Superior e Inf por Inferior)
+  fechas_plot <- levels(FINAL$Date)[-1]
+  df_bandas <- data.frame(
+    Date = factor(fechas_plot, levels = levels(FINAL$Date)),
+    Media = media_diaria,
+    Superior = sigma_sup,
+    Inferior = sigma_inf
+  )
+
   ## 4. Gráfica de Serie (Plotly)
-  P <- plot_ly(
-    FINAL[-1, ],
-    x = ~Date,
-    y = ~`rat#`,
-    color = ~`Description`,
-    split = ~bloque, # <-- Separa los segmentos no continuos
-    colors = c('forestgreen', 'orangered', "darkmagenta"),
-    type = 'scatter',
-    mode = "lines+markers",
-    hoverinfo = 'text',
-    text = ~paste(
-      '</br> Programa ', `Description`,
-      '</br> Fecha ', Date,
-      '</br> Rat miles: ', round(`rat#`, 0),
-      '</br> Variación: ', round(`variación`, 1), "%"
-    )
-  ) %>% 
-  layout(
-    title = paste(filtro$`Description`[nrow(filtro)]),
-    xaxis = list(title = 'Fecha'),
-    yaxis = list(title = 'Rating miles'),
-    annotations = list(
-      list(x = 0.17, y = 1, text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), showarrow = FALSE, xref = 'paper', yref = 'paper')
-    )
-  ) %>% 
-  hide_legend()
+  P <- plot_ly() %>% 
+    # Línea de Media (μ) con tooltip
+    add_lines(
+      data = df_bandas, x = ~Date, y = ~Media,
+      line = list(color = "royalblue", dash = "dash", width = 2),
+      hoverinfo = "text",
+      text = ~paste("<b>μ:</b>", round(Media, 1)),
+      name = "μ"
+    ) %>%
+    # Línea de +1 Sigma (+σ) con tooltip
+    add_lines(
+      data = df_bandas, x = ~Date, y = ~Superior,
+      line = list(color = "gray", dash = "dot", width = 1.5),
+      hoverinfo = "text",
+      text = ~paste("<b>μ+σ:</b>", round(Superior, 1)),
+      name = "+σ"
+    ) %>%
+    # Línea de -1 Sigma (-σ) con tooltip
+    add_lines(
+      data = df_bandas, x = ~Date, y = ~Inferior,
+      line = list(color = "gray", dash = "dot", width = 1.5),
+      hoverinfo = "text",
+      text = ~paste("<b>μ-σ:</b>", round(Inferior, 1)),
+      name = "-σ"
+    ) %>%
+    # Datos de los Programas 
+    add_trace(
+      data = FINAL[-1, ], 
+      x = ~Date, y = ~`rat#`,
+      color = ~`Description`, split = ~bloque, 
+      colors = c('forestgreen', 'orangered', "darkmagenta", "blue", "orange"),
+      type = 'scatter', mode = "lines+markers",
+      hoverinfo = 'text',
+      text = ~paste(
+        '</br> Programa: ', `Description`,
+        '</br> Fecha: ', Date,
+        '</br> Rat miles: ', round(`rat#`, 0),
+        '</br> Variación: ', round(`variación`, 1), "%"
+      )
+    ) %>% 
+    layout(
+      title = paste(filtro$`Description`[nrow(filtro)]),
+      xaxis = list(title = 'Fecha'),
+      yaxis = list(title = 'Rating miles'),
+      annotations = list(
+        list(x = 0.17, y = 1, text = paste("(-) Semestre: ", round(FINAL[1, 3], 0)), showarrow = FALSE, xref = 'paper', yref = 'paper'),
+        # Etiquetas fijas a la derecha
+        list(x = 1.02, y = media_diaria, text = "μ", showarrow = FALSE, xref = 'paper', yref = 'y', xanchor = 'left'),
+        list(x = 1.02, y = sigma_sup, text = "μ+σ", showarrow = FALSE, xref = 'paper', yref = 'y', xanchor = 'left'),
+        list(x = 1.02, y = sigma_inf, text = "μ-σ", showarrow = FALSE, xref = 'paper', yref = 'y', xanchor = 'left')
+      ),
+      margin = list(r = 60) 
+    ) %>% 
+    hide_legend()
 
   ## 5. Gráfica de Variaciones (ggplotly)
   Diario <- Diario %>% mutate(Type = ifelse(`variación` > 0, "Positiva", "Negativa"))

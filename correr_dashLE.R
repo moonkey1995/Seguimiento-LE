@@ -1,7 +1,7 @@
 # ── CONFIGURACIÓN NECESARIA PARA POWER AUTOMATE ────────────────────────────────
 .libPaths(c(
-  "C:/Users/gustavo.garduno/AppData/Local/R/win-library/4.5",
-  "C:/Program Files/R/R-4.5.2/library"
+  "C:/Program Files/R/win-library/4.5",
+  "C:/Program Files/R/R-4.5.3/library"
 ))
 Sys.setenv(HOME   = "C:/Seguimiento-LE")
 Sys.setenv(R_USER = "C:/Seguimiento-LE")
@@ -18,11 +18,9 @@ setwd("C:/Seguimiento-LE")
 # ── 1. Renderizar el archivo .Rmd ──────────────────────────────────────────────
 rmarkdown::render("index.Rmd")
 print("¡Reporte generado exitosamente!")
-
 # ── 2. Interactuar con Git ─────────────────────────────────────────────────────
 GIT  <- '"C:/Program Files/Git/cmd/git.exe"'
 repo <- "C:/Seguimiento-LE"
-
 run_git <- function(args) {
   cmd <- paste0(GIT, ' -C "', repo, '" ', args)
   result <- system(cmd, intern = TRUE, ignore.stderr = FALSE)
@@ -55,3 +53,4 @@ print("Subiendo los cambios al remoto ('git push')...")
 run_git("push origin main")
 
 print("¡Proceso de Git finalizado exitosamente!")
+

@@ -120,3 +120,68 @@ attr(,"status")
 Aviso:
 In system(cmd, intern = TRUE, ignore.stderr = FALSE) :
   el comando ejecutado '"C:/Program Files/Git/cmd/git.exe" -C "C:/Seguimiento-LE" pull origin main' tiene el estatus 1
+[1] "Estado del repositorio:"
+ [1] "On branch main"                                                              
+ [2] "Your branch is behind 'origin/main' by 2 commits, and can be fast-forwarded."
+ [3] "  (use \"git pull\" to update your local branch)"                            
+ [4] ""                                                                            
+ [5] "Changes not staged for commit:"                                              
+ [6] "  (use \"git add <file>...\" to update what will be committed)"              
+ [7] "  (use \"git restore <file>...\" to discard changes in working directory)"   
+ [8] "\tmodified:   Programmes Seguimiento LE_2.xlsx"                              
+ [9] "\tmodified:   Time LE Franjas_2.xlsx"                                        
+[10] "\tmodified:   index.html"                                                    
+[11] "\tmodified:   log_final.txt"                                                 
+[12] ""                                                                            
+[13] "no changes added to commit (use \"git add\" and/or \"git commit -a\")"       
+[1] "Añadiendo archivos modificados ('git add')..."
+warning: in the working copy of 'log_final.txt', LF will be replaced by CRLF the next time Git touches it
+
+character(0)
+[1] "Haciendo 'git commit' con el mensaje: Reporte actualizado automaticamente el 2026-11-03"
+[main da5ec42] Reporte actualizado automaticamente el 2026-11-03
+ Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 4 files changed, 458 insertions(+), 56 deletions(-)
+ [1] "[main da5ec42] Reporte actualizado automaticamente el 2026-11-03"                                                                 
+ [2] " Committer: Garduno De Jesus Gustavo (Empresa SMART ADMINISTRACION Y SOPORTE S.A. DE C.V) <gustavo.garduno@televisaunivision.com>"
+ [3] "Your name and email address were configured automatically based"                                                                  
+ [4] "on your username and hostname. Please check that they are accurate."                                                              
+ [5] "You can suppress this message by setting them explicitly. Run the"                                                                
+ [6] "following command and follow the instructions in your editor to edit"                                                             
+ [7] "your configuration file:"                                                                                                         
+ [8] ""                                                                                                                                 
+ [9] "    git config --global --edit"                                                                                                   
+[10] ""                                                                                                                                 
+[11] "After doing this, you may fix the identity used for this commit with:"                                                            
+[12] ""                                                                                                                                 
+[13] "    git commit --amend --reset-author"                                                                                            
+[14] ""                                                                                                                                 
+[15] " 4 files changed, 458 insertions(+), 56 deletions(-)"                                                                             
+[1] "Subiendo los cambios al remoto ('git push')..."
+To https://github.com/moonkey1995/Seguimiento-LE
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/moonkey1995/Seguimiento-LE'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+character(0)
+attr(,"status")
+[1] 1
+Aviso:
+In system(cmd, intern = TRUE, ignore.stderr = FALSE) :
+  el comando ejecutado '"C:/Program Files/Git/cmd/git.exe" -C "C:/Seguimiento-LE" push origin main' tiene el estatus 1
+[1] "¡Proceso de Git finalizado exitosamente!"

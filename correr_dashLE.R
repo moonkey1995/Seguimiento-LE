@@ -1,8 +1,9 @@
 # ── CONFIGURACIÓN NECESARIA PARA POWER AUTOMATE ────────────────────────────────
 .libPaths(c(
   "C:/Program Files/R/win-library/4.5",
-  "C:/Program Files/R/R-4.5.3/library"
+  Sys.getenv("R_LIBS_USER")
 ))
+
 Sys.setenv(HOME   = "C:/Seguimiento-LE")
 Sys.setenv(R_USER = "C:/Seguimiento-LE")
 Sys.setenv(TMPDIR = "C:/Seguimiento-LE/tmp")

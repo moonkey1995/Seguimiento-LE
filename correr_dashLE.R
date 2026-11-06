@@ -1,4 +1,3 @@
-
 # ── CONFIGURACIÓN NECESARIA PARA POWER AUTOMATE ────────────────────────────────
 .libPaths(c(
   "C:/Users/gustavo.garduno/AppData/Local/R/win-library/4.5",

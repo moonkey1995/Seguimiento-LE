@@ -1,3 +1,0 @@
-Error en loadNamespace(x): no hay paquete llamado 'rmarkdown'
-Calls: loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
-Ejecución interrumpida

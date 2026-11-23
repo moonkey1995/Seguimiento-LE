@@ -3,3 +3,5 @@ correr_dashLE.R
 original dash.R
 tmp/
 .Rproj.user
+.Rhistory
+.RDataTmp

@@ -174,7 +174,7 @@ lastyear<-Sem-180
 ### Serie franjas 
 Franjas<-read_excel(paste0(ruta,"/Time LE Franjas_2.xlsx"),
                     col_types = c("text","text","date","date","numeric")) %>% drop_na() %>% 
-  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) %>% mutate(Inicio=substr(`Start Time`,1,5)) %>% rename(`rat#` = `P2+`)
+  mutate(`Start Time` = format(`Start Time`, format = "%H:%M:%S")) %>% mutate(Inicio=substr(`Start Time`,1,5)) %>% rename(`rat#` = `P.2+`)
 
 #####################ojito monica ocupo p2+ y yo p.2+ hacer el cambio el vienrees ver esta parte del codigo
 
